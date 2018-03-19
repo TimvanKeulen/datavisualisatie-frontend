@@ -1,0 +1,14 @@
+{
+  "name": "datavisualisatie",
+  "version": "1.0.0",
+  "description": "datavisualistatie frontend",
+  "main": "main.js",
+  "scripts": {
+    "start": " electron ."
+  },
+  "author": "Tim",
+  "license": "ISC",
+  "dependencies": {
+    "electron": "^1.8.4"
+  }
+}
