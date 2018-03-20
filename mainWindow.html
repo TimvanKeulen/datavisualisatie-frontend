@@ -1,19 +1,33 @@
 <!DOCTYPE html>
 <html lang="eng">
 <head>
-	<link rel = "stylesheet" 
-         href = "./node_modules/bootstrap/dist/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="./packages/photon/css/photon.min.css">
 	<title>Datavisualisatie</title>
 </head>
 <body>
-	<div class="col-md-12">
-		<h1> Datavisualisatie </h1>
-		<div class="alert alert-success">
-			<strong>Success!</strong> Bootstrap works!
-		</div>
-
-		<canvas id="myChart" width="200" height="70"></canvas>
-	</div>
+  <div class="window">
+    <div class="window-content">
+      <div class="pane-group">
+      <div class="pane-sm sidebar">
+        <h4>Sidebar items</h4> <br><br>
+        <p> item 1 </p>
+        <p> item 2 </p>
+        <p> item 3 </p>
+      </div>
+      <div class="pane">
+        <div class="col-md-12">
+          <h1> Datavisualisatie </h1>
+          <div class="alert alert-success">
+            <strong>Success!</strong> Bootstrap works!
+        </div>
+        <canvas id="myChart" width="200" height="70"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+	
 </body>
 <footer>
 	<script type="text/javascript" src="./node_modules/chart.js/dist/Chart.bundle.js"></script>

@@ -12,6 +12,7 @@
     "bootstrap": "^4.0.0",
     "chart.js": "^2.7.2",
     "chartjs": "^0.3.24",
-    "electron": "^1.8.4"
+    "electron": "^1.8.4",
+    "electron-menus": "^0.1.0"
   }
 }
