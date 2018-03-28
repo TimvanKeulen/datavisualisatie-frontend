@@ -14,6 +14,7 @@
     "chartjs": "^0.3.24",
     "electron": "^1.8.4",
     "electron-menus": "^0.1.0",
-    "mongojs": "2.5.0"
+    "mongojs": "2.5.0",
+    "photonkit": "0.1.2"
   }
 }
