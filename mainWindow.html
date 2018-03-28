@@ -2,7 +2,7 @@
 <html lang="eng">
 <head>
 	<link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" href="./node_modules/photonkit/dist/css/photon.css">
+    <link rel="stylesheet" type="text/css" href="./node_modules/photonkit/dist/css/photon.css">
 	<title>Datavisualisatie</title>
 </head>
 <body>
@@ -32,6 +32,8 @@
 <footer>
 	<script type="text/javascript" src="./node_modules/chart.js/dist/Chart.bundle.js"></script>
 	<script>
+      var mongojs = require('mongojs');
+
       var ctx = document.getElementById("myChart").getContext('2d');
       var myChart = new Chart(ctx, {
           type: 'bar',
