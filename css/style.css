@@ -1,0 +1,84 @@
+@font-face {
+    font-family: "Whitney";
+    src: url("../fonts/WhitneyHTF-Book.otf");
+}
+@font-face {
+    font-family: "Whitney";
+    src: url("../fonts/WhitneyHTF-SemiBold.otf");
+    font-weight: 700;
+}
+@font-face {
+    font-family: "WhitneyNumeric";
+    src: url("../fonts/WhitneyNumeric-Book.otf");
+}
+@font-face {
+    font-family: "WhitneyNumeric";
+    src: url("../fonts/WhitneyNumeric-SemiBold.otf");
+    font-weight: 700;
+}
+
+body {
+    -ms-overflow-style: scrollbar;
+    font-family: 'Whitney', Georgia, sans-serif !important;
+}
+
+.sidebar {
+    background-color: #34495e;
+    color: #F1F1F1;
+    padding: 10px;
+}
+
+.pane
+{
+    padding:1%;
+}
+#title-bar {
+    -webkit-app-region: drag;
+    height: 32px;
+    padding: 0px;
+    margin: 0px;
+    color: #F1F1F1;
+    font-family: sans-serif;
+    background-color: #2c3e50;
+}
+
+#title {
+    position: fixed;
+    top: 0px;
+    left: 12px;
+    line-height: 32px;
+    font-size: 14px;
+}
+
+#title-bar-btns {
+    -webkit-app-region: no-drag;
+    position: fixed;
+    right: 0px;
+}
+
+#title-bar-btns button {
+    height: 32px;
+    width: 64px;
+    background-color: transparent;
+    border: none;
+    color: #F1F1F1;
+    font-size: 16px;
+}
+
+#close-btn:hover {
+    background-color: #e74c3c;
+}
+
+#min-btn:hover {
+    background-color: #3F3F41;
+}
+
+
+*:focus {
+    outline: 0 !important;
+}
+
+.context-menu-item
+{
+    cursor: pointer;
+}

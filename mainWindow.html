@@ -1,74 +1,166 @@
 <!DOCTYPE html>
 <html lang="eng">
+
 <head>
-	<link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" href="./node_modules/photonkit/dist/css/photon.css">
-	<title>Datavisualisatie</title>
+    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="./node_modules/photonkit/dist/css/photon.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+
+    <title>Datavisualisatie</title>
 </head>
+
 <body>
-  <div class="window">
-    <div class="window-content">
-      <div class="pane-group">
-      <div class="pane-sm sidebar">
-        <h4>Sidebar items</h4> <br><br>
-        <p> item 1 </p>
-        <p> item 2 </p>
-        <p> item 3 </p>
-      </div>
-      <div class="pane">
-        <div class="col-md-12">
-          <h1> Datavisualisatie </h1>
-          <div class="alert alert-success">
-            <strong>Success!</strong> Bootstrap works!
-        </div>
-        <canvas id="myChart" width="200" height="70"></canvas>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-	
+    <div class="window">
+        <header class="toolbar toolbar-header">
+            <div id="title-bar">
+                <div id="title">Hogeschool Data Visualization</div>
+                <div id="title-bar-btns">
+                    <button id="min-btn">
+                        <span class="icon icon-minus"></span>
+                    </button>
+                    <button id="close-btn">
+                        <span class="icon icon-cancel"></span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <div class="window-content">
+            <div class="pane-group">
+                <div class="pane-sm sidebar">
+                    <h2>Context Menu</h2>
+                    <ul>
+                        <li>
+                            <div>
+                                <strong style="color:#55efc4;" class="context-menu-item" id="context-1">Temperature - Population</strong>
+                                <p>Monthly average temperature vs. Population Change</p>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <strong style="color:#55efc4;" class="context-menu-item" id="context-2">Temperature - Traffic Jams</strong>
+                                <p>Daily average temperature vs. Daily Traffic Jams</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="pane">
+
+                    <div class="col-sm">
+                        <h2>Temperature - Traffic Jams</h2>
+                        <p>These graphs plot the average daily average, lowest and highest temperatures against traffic jam
+                            data. On the right hand you can filter by date and temperature.</p>
+                            <hr />
+
+                        <canvas id="myChart" width="200" height="70"></canvas>
+                        <hr />
+                        <canvas id="canvas"></canvas>
+                    </div>
+
+
+                </div>
+                <div class="pane">
+                    <h2>
+                        Filter options</h2>
+                    <form>
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">Starting Date</label>
+                            <input type="date" class="form-control" id="formGroupExampleInput" value="2011-08-19">
+                        </div>
+                        <div class="form-group">
+                            <label for="formGroupExampleInput2">Ending Date</label>
+                            <input type="date" class="form-control" id="formGroupExampleInput2" value="2011-08-19">
+                        </div>
+                        <div class="form-group">
+                            <label for="formGroupExampleInput3">Minimum Temperature</label>
+                            <input type="number" class="form-control" id="formGroupExampleInput3" value="0">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="formGroupExampleInput4">Maximum Temperature</label>
+                            <input type="number" class="form-control" id="formGroupExampleInput4" value="15">
+                        </div>
+                    </form>
+                    <hr />
+                    <h2>
+                        Data Tables</h2>
+                    <table class="table-striped">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Kind</th>
+                                <th>File Size</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>photon.css</td>
+                                <td>CSS</td>
+                                <td>28K</td>
+                            </tr>
+                            <tr>
+                                <td>photon.css</td>
+                                <td>CSS</td>
+                                <td>28K</td>
+                            </tr>
+                            <tr>
+                                <td>photon.css</td>
+                                <td>CSS</td>
+                                <td>28K</td>
+                            </tr>
+                         
+                            <tr>
+                                <td>photon.css</td>
+                                <td>CSS</td>
+                                <td>28K</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <script type="text/javascript" src="./node_modules/chart.js/dist/Chart.bundle.js"></script>
+            <script src="js/windowControls.js"></script>
 </body>
 <footer>
-	<script type="text/javascript" src="./node_modules/chart.js/dist/Chart.bundle.js"></script>
-	<script>
-      var ctx = document.getElementById("myChart").getContext('2d');
-      var myChart = new Chart(ctx, {
-          type: 'bar',
-          data: {
-              labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-              datasets: [{
-                  label: 'Chartjs works too!',
-                  data: [12, 19, 3, 5, 2, 3],
-                  backgroundColor: [
-                      'rgba(255, 99, 132, 0.2)',
-                      'rgba(54, 162, 235, 0.2)',
-                      'rgba(255, 206, 86, 0.2)',
-                      'rgba(75, 192, 192, 0.2)',
-                      'rgba(153, 102, 255, 0.2)',
-                      'rgba(255, 159, 64, 0.2)'
-                  ],
-                  borderColor: [
-                      'rgba(255,99,132,1)',
-                      'rgba(54, 162, 235, 1)',
-                      'rgba(255, 206, 86, 1)',
-                      'rgba(75, 192, 192, 1)',
-                      'rgba(153, 102, 255, 1)',
-                      'rgba(255, 159, 64, 1)'
-                  ],
-                  borderWidth: 1
-              }]
-          },
-          options: {
-              scales: {
-                  yAxes: [{
-                      ticks: {
-                          beginAtZero:true
-                      }
-                  }]
-              }
-          }
-      });
-  </script>
+    <script>
+        var ctx = document.getElementById("myChart").getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+                datasets: [{
+                    label: 'Chartjs works too!',
+                    data: [12, 19, 3, 5, 2, 3],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255,99,132,1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+    </script>
 </footer>
+
 </html>
