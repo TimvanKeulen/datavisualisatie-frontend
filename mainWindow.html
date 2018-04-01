@@ -65,12 +65,12 @@
                         Filter options</h2>
                     <form>
                         <div class="form-group">
-                            <label for="formGroupExampleInput">Starting Date</label>
-                            <input type="date" class="form-control" id="formGroupExampleInput" value="2011-08-19">
+                            <label for="startingDateSelector">Starting Date</label>
+                            <input type="date" class="form-control" id="startingDateSelector" value="2011-08-19">
                         </div>
                         <div class="form-group">
-                            <label for="formGroupExampleInput2">Ending Date</label>
-                            <input type="date" class="form-control" id="formGroupExampleInput2" value="2011-08-19">
+                            <label for="endingDateSelector">Ending Date</label>
+                            <input type="date" class="form-control" id="endingDateSelector" value="2011-08-19">
                         </div>
                         <div class="form-group">
                             <label for="formGroupExampleInput3">Minimum Temperature</label>
@@ -125,6 +125,11 @@
 <footer>
 	<script type="text/javascript" src="./node_modules/chart.js/dist/Chart.bundle.js"></script>
 	<script>
+      var dateformat = require('dateformat');
+
+      var myChart = null;
+      var ctx = null;
+
       function getSpecificObject(objectName, collection) {
           var valueArray = [];
 
@@ -143,27 +148,38 @@
     //   }, 25);
 
       setTimeout(function() {
-        var ctx = document.getElementById("myChart").getContext('2d');
+        var firstDate = DatabaseConnector.trafficDocs[0].dateTime
+        var endDate   = DatabaseConnector.trafficDocs[DatabaseConnector.trafficDocs.length-1].dateTime
 
-        var myChart = new Chart(ctx, {
+        document.querySelector("#startingDateSelector").value = dateformat(firstDate, "yyyy-mm-dd")
+        document.querySelector("#endingDateSelector").value = dateformat(endDate, "yyyy-mm-dd")
+
+        var startObject = 0;
+        var endObject = DatabaseConnector.trafficDocs.length;
+
+        var options = {
             type: 'line',
             data: {
-                labels: getSpecificObject("dateTime", DatabaseConnector.trafficDocs),
+                labels: getSpecificObject("dateTime", DatabaseConnector.trafficDocs.slice(startObject, endObject)),
                 datasets: [{
                     label: "Avg. jam length",
-                    data: getSpecificObject("averageLength", DatabaseConnector.trafficDocs)
+                    data: getSpecificObject("averageLength", DatabaseConnector.trafficDocs.slice(startObject, endObject)),
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)'
                 },
                 {
                     label: "Total jam length",
-                    data: getSpecificObject("totalLength", DatabaseConnector.trafficDocs)
+                    data: getSpecificObject("totalLength", DatabaseConnector.trafficDocs.slice(startObject, endObject)),
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)'
                 },
                 {
                     label: "Average weight",
-                    data: getSpecificObject("averageZwaarte", DatabaseConnector.trafficDocs)
+                    data: getSpecificObject("averageZwaarte", DatabaseConnector.trafficDocs.slice(startObject, endObject)),
+                    backgroundColor: 'rgba(255, 206, 86, 0.2)'
                 },
                 {
                     label: "Average duration",
-                    data: getSpecificObject("averageDuration", DatabaseConnector.trafficDocs)
+                    data: getSpecificObject("averageDuration", DatabaseConnector.trafficDocs.slice(startObject, endObject)),
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)'
                 }]
             },
             options: {
@@ -179,7 +195,86 @@
                     }]
                 }
             }
-        })
+        }
+
+        document.querySelector("#startingDateSelector").onchange = function() {
+            currentValue = this.value
+
+            for (i=0; i<DatabaseConnector.trafficDocs.length; i++) {
+                if (dateformat(DatabaseConnector.trafficDocs[i].dateTime, "yyyy-mm-dd") == dateformat(dateformat(this.value), "yyyy-mm-dd")) {
+                    DatabaseConnector.trafficDocsScaled = DatabaseConnector.trafficDocs.slice(i, DatabaseConnector.trafficDocs.length);
+                    startObject = i;
+
+                    options.data.labels = getSpecificObject("dateTime", DatabaseConnector.trafficDocs.slice(startObject, endObject));
+                    options.datasets = [{
+                        label: "Avg. jam length",
+                        data: getSpecificObject("averageLength", DatabaseConnector.trafficDocs.slice(startObject, endObject)),
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)'
+                    },
+                    {
+                        label: "Total jam length",
+                        data: getSpecificObject("totalLength", DatabaseConnector.trafficDocs.slice(startObject, endObject)),
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)'
+                    },
+                    {
+                        label: "Average weight",
+                        data: getSpecificObject("averageZwaarte", DatabaseConnector.trafficDocs.slice(startObject, endObject)),
+                        backgroundColor: 'rgba(255, 206, 86, 0.2)'
+                    },
+                    {
+                        label: "Average duration",
+                        data: getSpecificObject("averageDuration", DatabaseConnector.trafficDocs.slice(startObject, endObject)),
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)'
+                    }]
+                    
+                    myChart.destroy()
+                    myChart = new Chart(ctx, options);
+
+                    break;
+                }
+            }
+        }
+
+        document.querySelector("#endingDateSelector").onchange = function() {
+            currentValue = this.value
+
+            for (i=0; i<DatabaseConnector.trafficDocs.length; i++) {
+                if (dateformat(DatabaseConnector.trafficDocs[i].dateTime, "yyyy-mm-dd") == dateformat(dateformat(this.value), "yyyy-mm-dd")) {
+                    DatabaseConnector.trafficDocsScaled = DatabaseConnector.trafficDocs.slice(i, DatabaseConnector.trafficDocs.length);
+                    endObject = i;
+
+                    options.data.labels = getSpecificObject("dateTime", DatabaseConnector.trafficDocs.slice(startObject, endObject));
+                    options.datasets = [{
+                        label: "Avg. jam length",
+                        data: getSpecificObject("averageLength", DatabaseConnector.trafficDocs.slice(startObject, endObject)),
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)'
+                    },
+                    {
+                        label: "Total jam length",
+                        data: getSpecificObject("totalLength", DatabaseConnector.trafficDocs.slice(startObject, endObject)),
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)'
+                    },
+                    {
+                        label: "Average weight",
+                        data: getSpecificObject("averageZwaarte", DatabaseConnector.trafficDocs.slice(startObject, endObject)),
+                        backgroundColor: 'rgba(255, 206, 86, 0.2)'
+                    },
+                    {
+                        label: "Average duration",
+                        data: getSpecificObject("averageDuration", DatabaseConnector.trafficDocs.slice(startObject, endObject)),
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)'
+                    }]
+                    
+                    myChart.destroy()
+                    myChart = new Chart(ctx, options);
+
+                    break;
+                }
+            }
+        }
+
+        ctx = document.getElementById("myChart").getContext('2d');
+        myChart = new Chart(ctx, options)
 
         // var myChart = new Chart(ctx, {
         //     type: 'line',
