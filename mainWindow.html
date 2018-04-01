@@ -54,6 +54,7 @@
                             <hr />
 
                         <canvas id="myChart" width="200" height="70"></canvas>
+                        <canvas id="myChart2" width="200" height="70"></canvas>
                         <hr />
                         <canvas id="canvas"></canvas>
                     </div>
@@ -130,6 +131,9 @@
       var myChart = null;
       var ctx = null;
 
+      var myChart2 = null;
+      var ctx2 = null;
+
       function getSpecificObject(objectName, collection) {
           var valueArray = [];
 
@@ -156,6 +160,9 @@
 
         var startObject = 0;
         var endObject = DatabaseConnector.trafficDocs.length;
+
+        var startObject2 = 0;
+        var endObject2 = DatabaseConnector.weatherDailyDocs.length;
 
         var options = {
             type: 'line',
@@ -197,12 +204,46 @@
             }
         }
 
+        var options2 = {
+            type: 'line',
+            data: {
+                labels: getSpecificObject("dateTime", DatabaseConnector.weatherDailyDocs.slice(startObject2, endObject2)),
+                datasets: [{
+                    label: "Avg. temperature",
+                    data: getSpecificObject("averageTemperature", DatabaseConnector.weatherDailyDocs.slice(startObject2, endObject2)),
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)'
+                },
+                {
+                    label: "Lowest temperature",
+                    data: getSpecificObject("lowestTemperature", DatabaseConnector.weatherDailyDocs.slice(startObject2, endObject2)),
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)'
+                },
+                {
+                    label: "Highest temperature",
+                    data: getSpecificObject("highestTemperature", DatabaseConnector.weatherDailyDocs.slice(startObject2, endObject2)),
+                    backgroundColor: 'rgba(255, 206, 86, 0.2)'
+                }]
+            },
+            options: {
+                scales: {
+                    xAxes: [{
+                        type: 'time',
+                        ticks: {
+                            autoSkip: true
+                        },
+                        time: {
+                            unit: 'day'
+                        }
+                    }]
+                }
+            }
+        }
+
         document.querySelector("#startingDateSelector").onchange = function() {
             currentValue = this.value
 
             for (i=0; i<DatabaseConnector.trafficDocs.length; i++) {
                 if (dateformat(DatabaseConnector.trafficDocs[i].dateTime, "yyyy-mm-dd") == dateformat(dateformat(this.value), "yyyy-mm-dd")) {
-                    DatabaseConnector.trafficDocsScaled = DatabaseConnector.trafficDocs.slice(i, DatabaseConnector.trafficDocs.length);
                     startObject = i;
 
                     options.data.labels = getSpecificObject("dateTime", DatabaseConnector.trafficDocs.slice(startObject, endObject));
@@ -233,6 +274,34 @@
                     break;
                 }
             }
+
+            for (i=0; i<DatabaseConnector.weatherDailyDocs.length; i++) {
+                if (dateformat(DatabaseConnector.weatherDailyDocs[i].dateTime, "yyyy-mm-dd") == dateformat(dateformat(this.value), "yyyy-mm-dd")) {
+                    startObject2 = i;
+
+                    options2.data.labels = getSpecificObject("dateTime", DatabaseConnector.weatherDailyDocs.slice(startObject2, endObject2));
+                    options2.datasets = [{
+                        label: "Avg. temperature",
+                        data: getSpecificObject("averageTemperature", DatabaseConnector.weatherDailyDocs.slice(startObject2, endObject2)),
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)'
+                    },
+                    {
+                        label: "Lowest temperature",
+                        data: getSpecificObject("lowestTemperature", DatabaseConnector.weatherDailyDocs.slice(startObject2, endObject2)),
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)'
+                    },
+                    {
+                        label: "Highest temperature",
+                        data: getSpecificObject("highestTemperature", DatabaseConnector.weatherDailyDocs.slice(startObject2, endObject2)),
+                        backgroundColor: 'rgba(255, 206, 86, 0.2)'
+                    }]
+                    
+                    myChart2.destroy()
+                    myChart2 = new Chart(ctx2, options2);
+
+                    break;
+                }
+            }
         }
 
         document.querySelector("#endingDateSelector").onchange = function() {
@@ -240,7 +309,6 @@
 
             for (i=0; i<DatabaseConnector.trafficDocs.length; i++) {
                 if (dateformat(DatabaseConnector.trafficDocs[i].dateTime, "yyyy-mm-dd") == dateformat(dateformat(this.value), "yyyy-mm-dd")) {
-                    DatabaseConnector.trafficDocsScaled = DatabaseConnector.trafficDocs.slice(i, DatabaseConnector.trafficDocs.length);
                     endObject = i;
 
                     options.data.labels = getSpecificObject("dateTime", DatabaseConnector.trafficDocs.slice(startObject, endObject));
@@ -271,10 +339,41 @@
                     break;
                 }
             }
+
+            for (i=0; i<DatabaseConnector.weatherDailyDocs.length; i++) {
+                if (dateformat(DatabaseConnector.weatherDailyDocs[i].dateTime, "yyyy-mm-dd") == dateformat(dateformat(this.value), "yyyy-mm-dd")) {
+                    endObject2 = i;
+
+                    options2.data.labels = getSpecificObject("dateTime", DatabaseConnector.weatherDailyDocs.slice(startObject2, endObject2));
+                    options2.datasets = [{
+                        label: "Avg. temperature",
+                        data: getSpecificObject("averageTemperature", DatabaseConnector.weatherDailyDocs.slice(startObject2, endObject2)),
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)'
+                    },
+                    {
+                        label: "Lowest temperature",
+                        data: getSpecificObject("lowestTemperature", DatabaseConnector.weatherDailyDocs.slice(startObject2, endObject2)),
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)'
+                    },
+                    {
+                        label: "Highest temperature",
+                        data: getSpecificObject("highestTemperature", DatabaseConnector.weatherDailyDocs.slice(startObject2, endObject2)),
+                        backgroundColor: 'rgba(255, 206, 86, 0.2)'
+                    }]
+                    
+                    myChart2.destroy()
+                    myChart2 = new Chart(ctx2, options2);
+
+                    break;
+                }
+            }
         }
 
         ctx = document.getElementById("myChart").getContext('2d');
+        ctx2 = document.getElementById("myChart2").getContext('2d');
+
         myChart = new Chart(ctx, options)
+        myChart2 = new Chart(ctx2, options2);
 
         // var myChart = new Chart(ctx, {
         //     type: 'line',
