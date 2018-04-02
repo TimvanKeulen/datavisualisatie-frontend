@@ -10,20 +10,22 @@ class databaseConnector {
 
         var that = this;
 
-        db['traffic'].find(function(err, docs) {
+        db['traffic'].find(function (err, docs) {
             that.trafficDocs = docs;
         });
 
-        db['weather-day'].find(function(err, docs) {
+        db['weather-day'].find(function (err, docs) {
             that.weatherDailyDocs = docs;
         });
 
-        db['weather-month'].find(function(err, docs) {
+        db['weather-month'].find(function (err, docs) {
             that.weatherMonthlyDocs = docs;
         });
 
-        db['population'].find(function(err, docs) {
+        db['population'].find(function (err, docs) {
             that.populationDocs = docs;
         });
+
+        
     }
 }

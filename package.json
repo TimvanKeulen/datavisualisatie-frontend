@@ -10,12 +10,14 @@
   "license": "ISC",
   "dependencies": {
     "bootstrap": "^4.0.0",
+    "bootstrap-slider": "^10.0.0",
     "chart.js": "^2.7.2",
     "chartjs": "^0.3.24",
+    "dateformat": "3.0.3",
     "electron-menus": "^0.1.0",
+    "jquery": "^3.3.1",
     "mongojs": "2.5.0",
-    "photonkit": "0.1.2",
-    "dateformat": "3.0.3"
+    "photonkit": "0.1.2"
   },
   "devDependencies": {
     "electron": "^1.8.4"

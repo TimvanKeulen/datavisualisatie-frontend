@@ -30,38 +30,20 @@
             <div class="pane-group">
                 <div class="pane-sm sidebar">
                     <h2>Context Menu</h2>
-                    <ul>
-                        <li>
-                            <div>
-                                <strong style="color:#55efc4;" class="context-menu-item" id="context-1">Temperature - Population</strong>
-                                <p>Monthly average temperature vs. Population Change</p>
-                            </div>
-                        </li>
-                        <li>
-                            <div>
-                                <strong style="color:#55efc4;" class="context-menu-item" id="context-2">Temperature - Traffic Jams</strong>
-                                <p>Daily average temperature vs. Daily Traffic Jams</p>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-                <div class="pane">
+                    <p>Click highlights here to change between questions.</p>
+                    <div>
 
-                    <div class="col-sm">
-                        <h2>Temperature - Traffic Jams</h2>
-                        <p>These graphs plot the average daily average, lowest and highest temperatures against traffic jam
-                            data. On the right hand you can filter by date and temperature.</p>
-                            <hr />
-
-                        <canvas id="myChart" width="200" height="70"></canvas>
-                        <canvas id="myChart2" width="200" height="70"></canvas>
-                        <hr />
-                        <canvas id="canvas"></canvas>
+                        <strong style="color:#12CBC4;" class="context-menu-item" id="context-1">Temperature - Traffic Jams</strong>
+                        <p>Daily average temperature vs. Daily Traffic Jams</p>
                     </div>
 
 
-                </div>
-                <div class="pane">
+                    <div>
+                        <strong style="color:#12CBC4;" class="context-menu-item" id="context-2">Temperature - Population</strong>
+                        <p>Monthly average temperature vs. Population Change</p>
+                    </div>
+                    <hr />
+
                     <h2>
                         Filter options</h2>
                     <form>
@@ -73,377 +55,51 @@
                             <label for="endingDateSelector">Ending Date</label>
                             <input type="date" class="form-control" id="endingDateSelector" value="2011-08-19">
                         </div>
-                        <div class="form-group">
-                            <label for="formGroupExampleInput3">Minimum Temperature</label>
-                            <input type="number" class="form-control" id="formGroupExampleInput3" value="0">
-                        </div>
 
                         <div class="form-group">
-                            <label for="formGroupExampleInput4">Maximum Temperature</label>
-                            <input type="number" class="form-control" id="formGroupExampleInput4" value="15">
+                            <label for="endingDateSelector">Temperature Range</label>
+
+                            <input type="number" class="form-control" id="tempMin" value="-10">
+                            <input type="number" class="form-control" id="tempMax" value="30">
                         </div>
+                        
+                        <button class="btn btn-large btn-primary" id="find-button">Find</button>
                     </form>
-                    <hr />
-                    <h2>
-                        Data Tables</h2>
-                    <table class="table-striped">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Kind</th>
-                                <th>File Size</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>photon.css</td>
-                                <td>CSS</td>
-                                <td>28K</td>
-                            </tr>
-                            <tr>
-                                <td>photon.css</td>
-                                <td>CSS</td>
-                                <td>28K</td>
-                            </tr>
-                            <tr>
-                                <td>photon.css</td>
-                                <td>CSS</td>
-                                <td>28K</td>
-                            </tr>
-                         
-                            <tr>
-                                <td>photon.css</td>
-                                <td>CSS</td>
-                                <td>28K</td>
-                            </tr>
-                        </tbody>
-                    </table>
                 </div>
+                <div class="pane">
+
+                    <div class="col-sm">
+                        <div id="visualisation-1">
+                            <h1>Temperature - Traffic Jams</h1>
+                            <p>These graphs plot the average daily average, lowest and highest temperatures against traffic
+                                jam data. On the right hand you can filter by date and temperature.</p>
+                            <hr />
+
+                            <canvas id="myChart" width="200" height="70"></canvas>
+                            <canvas id="myChart2" width="200" height="70"></canvas>
+                        </div>
+                        <div id="visualisation-2" style="display:none">
+                            <h1>Temperature - Population Growth</h1>
+                            <p>This graph visualizes the average monthly temperature against the number people that were born
+                                and that died in that same month.</p>
+                            <hr />
+
+                            <canvas id="myChart3" width="200" height="70"></canvas>
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+
             </div>
+
             <script type="text/javascript" src="./node_modules/chart.js/dist/Chart.bundle.js"></script>
             <script src="js/windowControls.js"></script>
+            <script type="text/javascript" src="js/visualization.js"></script>
+
+
 </body>
-<footer>
-	<script type="text/javascript" src="./node_modules/chart.js/dist/Chart.bundle.js"></script>
-	<script>
-      var dateformat = require('dateformat');
-
-      var myChart = null;
-      var ctx = null;
-
-      var myChart2 = null;
-      var ctx2 = null;
-
-      function getSpecificObject(objectName, collection) {
-          var valueArray = [];
-
-          for (i=0; i<collection.length; i++) {
-              valueArray.push(collection[i][objectName]);
-          }
-
-          return(valueArray);
-      }
-
-      var DatabaseConnector = new databaseConnector();
-    //   loadDataInterval = setInterval(function(){
-    //     if (DatabaseConnector.trafficDocs && DatabaseConnector.weatherDailyDocs && DatabaseConnector.weatherMonthlyDocs && DatabaseConnector.populationDocs) {
-    //         clearInterval(loadDataInterval);
-    //     }
-    //   }, 25);
-
-      setTimeout(function() {
-        var firstDate = DatabaseConnector.trafficDocs[0].dateTime
-        var endDate   = DatabaseConnector.trafficDocs[DatabaseConnector.trafficDocs.length-1].dateTime
-
-        document.querySelector("#startingDateSelector").value = dateformat(firstDate, "yyyy-mm-dd")
-        document.querySelector("#endingDateSelector").value = dateformat(endDate, "yyyy-mm-dd")
-
-        var startObject = 0;
-        var endObject = DatabaseConnector.trafficDocs.length;
-
-        var startObject2 = 0;
-        var endObject2 = DatabaseConnector.weatherDailyDocs.length;
-
-        var options = {
-            type: 'line',
-            data: {
-                labels: getSpecificObject("dateTime", DatabaseConnector.trafficDocs.slice(startObject, endObject)),
-                datasets: [{
-                    label: "Avg. jam length",
-                    data: getSpecificObject("averageLength", DatabaseConnector.trafficDocs.slice(startObject, endObject)),
-                    backgroundColor: 'rgba(255, 99, 132, 0.2)'
-                },
-                {
-                    label: "Total jam length",
-                    data: getSpecificObject("totalLength", DatabaseConnector.trafficDocs.slice(startObject, endObject)),
-                    backgroundColor: 'rgba(54, 162, 235, 0.2)'
-                },
-                {
-                    label: "Average weight",
-                    data: getSpecificObject("averageZwaarte", DatabaseConnector.trafficDocs.slice(startObject, endObject)),
-                    backgroundColor: 'rgba(255, 206, 86, 0.2)'
-                },
-                {
-                    label: "Average duration",
-                    data: getSpecificObject("averageDuration", DatabaseConnector.trafficDocs.slice(startObject, endObject)),
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)'
-                }]
-            },
-            options: {
-                scales: {
-                    xAxes: [{
-                        type: 'time',
-                        ticks: {
-                            autoSkip: true
-                        },
-                        time: {
-                            unit: 'day'
-                        }
-                    }]
-                }
-            }
-        }
-
-        var options2 = {
-            type: 'line',
-            data: {
-                labels: getSpecificObject("dateTime", DatabaseConnector.weatherDailyDocs.slice(startObject2, endObject2)),
-                datasets: [{
-                    label: "Avg. temperature",
-                    data: getSpecificObject("averageTemperature", DatabaseConnector.weatherDailyDocs.slice(startObject2, endObject2)),
-                    backgroundColor: 'rgba(255, 99, 132, 0.2)'
-                },
-                {
-                    label: "Lowest temperature",
-                    data: getSpecificObject("lowestTemperature", DatabaseConnector.weatherDailyDocs.slice(startObject2, endObject2)),
-                    backgroundColor: 'rgba(54, 162, 235, 0.2)'
-                },
-                {
-                    label: "Highest temperature",
-                    data: getSpecificObject("highestTemperature", DatabaseConnector.weatherDailyDocs.slice(startObject2, endObject2)),
-                    backgroundColor: 'rgba(255, 206, 86, 0.2)'
-                }]
-            },
-            options: {
-                scales: {
-                    xAxes: [{
-                        type: 'time',
-                        ticks: {
-                            autoSkip: true
-                        },
-                        time: {
-                            unit: 'day'
-                        }
-                    }]
-                }
-            }
-        }
-
-        document.querySelector("#startingDateSelector").onchange = function() {
-            currentValue = this.value
-
-            for (i=0; i<DatabaseConnector.trafficDocs.length; i++) {
-                if (dateformat(DatabaseConnector.trafficDocs[i].dateTime, "yyyy-mm-dd") == dateformat(dateformat(this.value), "yyyy-mm-dd")) {
-                    startObject = i;
-
-                    options.data.labels = getSpecificObject("dateTime", DatabaseConnector.trafficDocs.slice(startObject, endObject));
-                    options.datasets = [{
-                        label: "Avg. jam length",
-                        data: getSpecificObject("averageLength", DatabaseConnector.trafficDocs.slice(startObject, endObject)),
-                        backgroundColor: 'rgba(255, 99, 132, 0.2)'
-                    },
-                    {
-                        label: "Total jam length",
-                        data: getSpecificObject("totalLength", DatabaseConnector.trafficDocs.slice(startObject, endObject)),
-                        backgroundColor: 'rgba(54, 162, 235, 0.2)'
-                    },
-                    {
-                        label: "Average weight",
-                        data: getSpecificObject("averageZwaarte", DatabaseConnector.trafficDocs.slice(startObject, endObject)),
-                        backgroundColor: 'rgba(255, 206, 86, 0.2)'
-                    },
-                    {
-                        label: "Average duration",
-                        data: getSpecificObject("averageDuration", DatabaseConnector.trafficDocs.slice(startObject, endObject)),
-                        backgroundColor: 'rgba(75, 192, 192, 0.2)'
-                    }]
-                    
-                    myChart.destroy()
-                    myChart = new Chart(ctx, options);
-
-                    break;
-                }
-            }
-
-            for (i=0; i<DatabaseConnector.weatherDailyDocs.length; i++) {
-                if (dateformat(DatabaseConnector.weatherDailyDocs[i].dateTime, "yyyy-mm-dd") == dateformat(dateformat(this.value), "yyyy-mm-dd")) {
-                    startObject2 = i;
-
-                    options2.data.labels = getSpecificObject("dateTime", DatabaseConnector.weatherDailyDocs.slice(startObject2, endObject2));
-                    options2.datasets = [{
-                        label: "Avg. temperature",
-                        data: getSpecificObject("averageTemperature", DatabaseConnector.weatherDailyDocs.slice(startObject2, endObject2)),
-                        backgroundColor: 'rgba(255, 99, 132, 0.2)'
-                    },
-                    {
-                        label: "Lowest temperature",
-                        data: getSpecificObject("lowestTemperature", DatabaseConnector.weatherDailyDocs.slice(startObject2, endObject2)),
-                        backgroundColor: 'rgba(54, 162, 235, 0.2)'
-                    },
-                    {
-                        label: "Highest temperature",
-                        data: getSpecificObject("highestTemperature", DatabaseConnector.weatherDailyDocs.slice(startObject2, endObject2)),
-                        backgroundColor: 'rgba(255, 206, 86, 0.2)'
-                    }]
-                    
-                    myChart2.destroy()
-                    myChart2 = new Chart(ctx2, options2);
-
-                    break;
-                }
-            }
-        }
-
-        document.querySelector("#endingDateSelector").onchange = function() {
-            currentValue = this.value
-
-            for (i=0; i<DatabaseConnector.trafficDocs.length; i++) {
-                if (dateformat(DatabaseConnector.trafficDocs[i].dateTime, "yyyy-mm-dd") == dateformat(dateformat(this.value), "yyyy-mm-dd")) {
-                    endObject = i;
-
-                    options.data.labels = getSpecificObject("dateTime", DatabaseConnector.trafficDocs.slice(startObject, endObject));
-                    options.datasets = [{
-                        label: "Avg. jam length",
-                        data: getSpecificObject("averageLength", DatabaseConnector.trafficDocs.slice(startObject, endObject)),
-                        backgroundColor: 'rgba(255, 99, 132, 0.2)'
-                    },
-                    {
-                        label: "Total jam length",
-                        data: getSpecificObject("totalLength", DatabaseConnector.trafficDocs.slice(startObject, endObject)),
-                        backgroundColor: 'rgba(54, 162, 235, 0.2)'
-                    },
-                    {
-                        label: "Average weight",
-                        data: getSpecificObject("averageZwaarte", DatabaseConnector.trafficDocs.slice(startObject, endObject)),
-                        backgroundColor: 'rgba(255, 206, 86, 0.2)'
-                    },
-                    {
-                        label: "Average duration",
-                        data: getSpecificObject("averageDuration", DatabaseConnector.trafficDocs.slice(startObject, endObject)),
-                        backgroundColor: 'rgba(75, 192, 192, 0.2)'
-                    }]
-                    
-                    myChart.destroy()
-                    myChart = new Chart(ctx, options);
-
-                    break;
-                }
-            }
-
-            for (i=0; i<DatabaseConnector.weatherDailyDocs.length; i++) {
-                if (dateformat(DatabaseConnector.weatherDailyDocs[i].dateTime, "yyyy-mm-dd") == dateformat(dateformat(this.value), "yyyy-mm-dd")) {
-                    endObject2 = i;
-
-                    options2.data.labels = getSpecificObject("dateTime", DatabaseConnector.weatherDailyDocs.slice(startObject2, endObject2));
-                    options2.datasets = [{
-                        label: "Avg. temperature",
-                        data: getSpecificObject("averageTemperature", DatabaseConnector.weatherDailyDocs.slice(startObject2, endObject2)),
-                        backgroundColor: 'rgba(255, 99, 132, 0.2)'
-                    },
-                    {
-                        label: "Lowest temperature",
-                        data: getSpecificObject("lowestTemperature", DatabaseConnector.weatherDailyDocs.slice(startObject2, endObject2)),
-                        backgroundColor: 'rgba(54, 162, 235, 0.2)'
-                    },
-                    {
-                        label: "Highest temperature",
-                        data: getSpecificObject("highestTemperature", DatabaseConnector.weatherDailyDocs.slice(startObject2, endObject2)),
-                        backgroundColor: 'rgba(255, 206, 86, 0.2)'
-                    }]
-                    
-                    myChart2.destroy()
-                    myChart2 = new Chart(ctx2, options2);
-
-                    break;
-                }
-            }
-        }
-
-        ctx = document.getElementById("myChart").getContext('2d');
-        ctx2 = document.getElementById("myChart2").getContext('2d');
-
-        myChart = new Chart(ctx, options)
-        myChart2 = new Chart(ctx2, options2);
-
-        // var myChart = new Chart(ctx, {
-        //     type: 'line',
-        //     data: {
-        //         labels: chartDates,
-        //         datasets: [{
-        //             label: "Gem. filelengte",
-        //             data: averageLength
-        //         }]
-        //     },
-        //     options: {
-        //         scales: {
-        //             xAxes: [{
-        //                 type: 'time',
-        //                 time: {
-        //                     displayFormats: {
-        //                         'millisecond': 'MMM DD',
-        //                         'second': 'MMM DD',
-        //                         'minute': 'MMM DD',
-        //                         'hour': 'MMM DD',
-        //                         'day': 'MMM DD',
-        //                         'week': 'MMM DD',
-        //                         'month': 'MMM DD',
-        //                         'quarter': 'MMM DD',
-        //                         'year': 'MMM DD'
-        //                     }
-        //                 }
-        //             }]
-        //         }
-        //     }
-        // });
-
-        // var myChart = new Chart(ctx, {
-        //     type: 'bar',
-        //     data: {
-        //         labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-        //         datasets: [{
-        //             label: 'Chartjs works too!',
-        //             data: [12, 19, 3, 5, 2, 3],
-        //             backgroundColor: [
-        //                 'rgba(255, 99, 132, 0.2)',
-        //                 'rgba(54, 162, 235, 0.2)',
-        //                 'rgba(255, 206, 86, 0.2)',
-        //                 'rgba(75, 192, 192, 0.2)',
-        //                 'rgba(153, 102, 255, 0.2)',
-        //                 'rgba(255, 159, 64, 0.2)'
-        //             ],
-        //             borderColor: [
-        //                 'rgba(255,99,132,1)',
-        //                 'rgba(54, 162, 235, 1)',
-        //                 'rgba(255, 206, 86, 1)',
-        //                 'rgba(75, 192, 192, 1)',
-        //                 'rgba(153, 102, 255, 1)',
-        //                 'rgba(255, 159, 64, 1)'
-        //             ],
-        //             borderWidth: 1
-        //         }]
-        //     },
-        //     options: {
-        //         scales: {
-        //             yAxes: [{
-        //                 ticks: {
-        //                     beginAtZero:true
-        //                 }
-        //             }]
-        //         }
-        //     }
-        // });
-    }, 2000);
-  </script>
-</footer>
 
 </html>

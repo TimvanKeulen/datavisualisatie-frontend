@@ -21,7 +21,8 @@ body {
     -ms-overflow-style: scrollbar;
     font-family: 'Whitney', Georgia, sans-serif !important;
 }
-
+h1
+{color: #1B1464;}
 .sidebar {
     background-color: #34495e;
     color: #F1F1F1;
