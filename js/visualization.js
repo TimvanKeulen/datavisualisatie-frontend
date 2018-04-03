@@ -274,22 +274,22 @@ function builOptionsTraffic(traffic) {
         data: {
             labels: getPropertyArrayFromCollection("dateTime", traffic),
             datasets: [{
-                    label: "Average jam length",
+                    label: "Average jam length (in kilometres)",
                     data: getPropertyArrayFromCollection("averageLength", traffic),
                     backgroundColor: '#2ecc71'
                 },
                 {
-                    label: "Total jam length",
+                    label: "Total jam length (in kilometres)",
                     data: getPropertyArrayFromCollection("totalLength", traffic),
                     backgroundColor: '#e74c3c'
                 },
                 {
-                    label: "Average weight",
+                    label: "Average weight (in minutes)",
                     data: getPropertyArrayFromCollection("averageZwaarte", traffic),
                     backgroundColor: '#f1c40f'
                 },
                 {
-                    label: "Average duration",
+                    label: "Average duration (in minutes)",
                     data: getPropertyArrayFromCollection("averageDuration", traffic),
                     backgroundColor: '#8e44ad'
                 }
@@ -305,17 +305,17 @@ function buildOptionsWeatherDay(day) {
         data: {
             labels: getPropertyArrayFromCollection("dateTime", day),
             datasets: [{
-                    label: "Avg. temperature",
+                    label: "Avg. temperature (in degrees celsius)",
                     data: getPropertyArrayFromCollection("averageTemperature", day),
                     backgroundColor: '#2ecc71'
                 },
                 {
-                    label: "Lowest temperature",
+                    label: "Lowest temperature (in degrees celsius)",
                     data: getPropertyArrayFromCollection("lowestTemperature", day),
                     backgroundColor: '#3498db'
                 },
                 {
-                    label: "Highest temperature",
+                    label: "Highest temperature (in degrees celsius)",
                     data: getPropertyArrayFromCollection("highestTemperature", day),
                     backgroundColor: '#e74c3c'
                 }
@@ -345,7 +345,7 @@ function buildOptionsGraph3(month, population) {
                 },
                 {
                     type: 'line',
-                    label: "Average Tempature",
+                    label: "Average Tempature (in degrees celsius)",
                     data: getPropertyArrayFromCollection("averageTemperature", month),
                     backgroundColor: '#f1c40f',
                     yAxisID: 'y-axis-2',
@@ -499,7 +499,7 @@ setTimeout(function () {
                 },
                 {
                     type: 'line',
-                    label: "Average Tempature",
+                    label: "Average Temperature",
                     data: getPropertyArrayFromCollection("averageTemperature", month),
                     backgroundColor: '#f1c40f',
                     yAxisID: 'y-axis-2',
