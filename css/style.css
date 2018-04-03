@@ -17,6 +17,16 @@
     font-weight: 700;
 }
 
+::-webkit-scrollbar {     
+    background-color: #fff;
+    width: .8em
+}
+
+::-webkit-scrollbar-thumb:window-inactive,
+::-webkit-scrollbar-thumb {
+    background:  #34495e
+}
+
 body {
     -ms-overflow-style: scrollbar;
     font-family: 'Whitney', Georgia, sans-serif !important;
