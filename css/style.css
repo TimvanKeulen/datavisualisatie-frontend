@@ -93,3 +93,11 @@ h1
 {
     cursor: pointer;
 }
+
+#tempMin {
+    border-radius: 6px 6px 0px 0px;
+}
+
+#tempMax {
+    border-radius: 0px 0px 6px 6px;
+}
